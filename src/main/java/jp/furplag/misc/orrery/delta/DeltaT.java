@@ -36,7 +36,7 @@ public final class DeltaT {
    * @return estimated delta T value (seconds)
    */
   public static double estimate(final double julianDate) {
-    double decimalYear = Astror.yearize(julianDate);
+    final double decimalYear = Astror.yearize(julianDate);
 
     return Minion.of(decimalYear).estimate(decimalYear);
   }

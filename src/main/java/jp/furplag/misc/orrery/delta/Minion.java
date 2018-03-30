@@ -40,7 +40,7 @@ abstract class Minion {
   static {
     // @formatter:off
     origin = new Minion(Long.MIN_VALUE, Long.MAX_VALUE) {
-      @Override double estimate(double decimalYear) {
+      @Override protected double estimate(double decimalYear) {
         return -20 + 32 * Math.pow((decimalYear - 1820) / 100, 2);
       }
     };
@@ -60,7 +60,7 @@ abstract class Minion {
         , new StandardMinion(1986, 2004, 2000, 1, 63.86, 0.3345, -0.060374, 0.0017275, 0.000651814, 0.00002373599, 0, 0)
         , new StandardMinion(2005, 2049, 2000, 1, 62.92, 0.32217, 0.005589, 0, 0, 0, 0, 0)
 
-        , new Minion(2050, 2149) {@Override double estimate(double decimalYear) {
+        , new Minion(2050, 2149) {@Override protected double estimate(double decimalYear) {
           return origin.estimate(decimalYear) - 0.5628 * (2150 - decimalYear);
         }}
       ).stream().collect(Collectors.toSet())
@@ -109,7 +109,7 @@ abstract class Minion {
    * @param decimalYear the year from 0000-01-01T0Z.
    * @return {@link Minion}
    */
-  static Minion of(final double decimalYear) {
+  protected static Minion of(final double decimalYear) {
     return minions.stream().filter(minion -> minion.range.isValidValue((long) (Math.floor(decimalYear)))).findFirst().orElse(origin);
   }
 
@@ -120,5 +120,5 @@ abstract class Minion {
    * @param decimalYear the year from 0000-01-01T0Z.
    * @return estimated delta T value (seconds)
    */
-  abstract double estimate(double decimalYear);
+  protected abstract double estimate(double decimalYear);
 }

@@ -41,8 +41,8 @@ public class EclipticLongitudeTest {
   @Test
   public void test() {
     assertThat(Formula.sun[0].compareTo(null), is(1));
-    assertThat(Formula.sun[0].compareTo(Arrays.stream(Formula.sun).filter(f -> f.formulaType.is(1)).findFirst().orElse(null)), is(-1));
-    assertThat(Arrays.stream(Formula.sun).sorted().toArray(Formula[]::new)[Formula.sun.length - 2].angularVelocity, is(35999.0));
+    assertThat(Formula.sun[0].compareTo(Arrays.stream(Formula.sun).filter(f -> f.getFormulaType().is(1)).findFirst().orElse(null)), is(-1));
+    assertThat(Arrays.stream(Formula.sun).sorted().toArray(Formula[]::new)[Formula.sun.length - 2].getAngularVelocity(), is(35999.0));
 
     assertThat(FormulaType.valueOf("Normal"), is(FormulaType.Normal));
     assertThat(FormulaType.valueOf(0), is(FormulaType.Normal));
