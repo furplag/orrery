@@ -16,12 +16,13 @@
 
 package jp.furplag.misc.orrery;
 
-import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
+import java.lang.reflect.Constructor;
 import java.time.ZonedDateTime;
 import java.util.stream.IntStream;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
 import jp.furplag.misc.Astror;
@@ -37,8 +38,19 @@ public class PrecessionTest {
         final double j = Julian.ofEpochMilli(zdt.withYear(y).toInstant().toEpochMilli());
         IntStream.range(0, 360)
           .forEach(d -> {
-            double actual = new Precession(Astror.toTerrestrialTime(j)).compute(Astror.circulate(d - 180), 360 - d).optimize(d);
-            assertThat(0.0 <= actual && actual <= 360.0, is(true));
+            Constructor<Precession> c;
+            try {
+              c = Precession.class.getDeclaredConstructor(double.class);
+              c.setAccessible(true);
+              Precession precession = c.newInstance(Astror.toTerrestrialTime(j));
+              double actual = precession.compute(Astror.circulate(d - 180), 360 - d).optimize(d);
+              assertThat(0.0 <= actual && actual <= 360.0, CoreMatchers.is(true));
+              assertThat(precession.getTerrestrialTime(), CoreMatchers.is(Astror.toTerrestrialTime(j)));
+              assertNotNull(precession.getLongitude());
+              assertNotNull(precession.getLatitude());
+            } catch (ReflectiveOperationException e) {
+              e.printStackTrace();
+            }
           });
       });
 

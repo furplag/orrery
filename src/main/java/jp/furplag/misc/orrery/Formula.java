@@ -29,7 +29,7 @@ import lombok.Getter;
  *
  */
 @Getter
-class Formula implements Comparable<Formula> {
+public class Formula implements Comparable<Formula> {
 
   /** the type of formula . */
   static enum FormulaType {
