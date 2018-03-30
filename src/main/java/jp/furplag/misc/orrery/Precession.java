@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import jp.furplag.misc.Astror;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * precession of the sun .
@@ -28,7 +30,9 @@ import jp.furplag.misc.Astror;
  * @author furplag
  *
  */
-public class Precession {
+@Getter
+@Setter
+public final class Precession {
 
   /** construct parameter of &zeta; . */
   static final List<Double> constOfZeta;
@@ -44,7 +48,6 @@ public class Precession {
     constOfTheta = Arrays.asList(2004.3109, -0.42665, -0.041833);
   }
 
-  @SuppressWarnings("unused")
   private final double terrestrialTime;
 
   private final Minion zeta;
@@ -55,7 +58,6 @@ public class Precession {
 
   private double longitude;
 
-  @SuppressWarnings("unused")
   private double latitude;
 
   /**
@@ -67,11 +69,11 @@ public class Precession {
   private static final class Minion {
 
     @SuppressWarnings("unused")
-    private final double value;
+    final double value;
 
-    private final double sin;
+    final double sin;
 
-    private final double cos;
+    final double cos;
 
     private static Minion ofT(final List<Double> constOf, final double terrestrialTime) {
       return new Minion(initialization(constOf, terrestrialTime));
@@ -84,7 +86,7 @@ public class Precession {
     }
   }
 
-  public Precession(double terrestrialTime) {
+  Precession(double terrestrialTime) {
     this.terrestrialTime = terrestrialTime;
     zeta = Minion.ofT(constOfZeta, terrestrialTime);
     z = Minion.ofT(constOfZ, terrestrialTime);
@@ -99,9 +101,9 @@ public class Precession {
    * @return result
    */
   Precession compute(double alpha, double delta) {
-    final double r2 = rOf(alpha, delta, (zeta.cos * z.cos * theta.cos), (zeta.sin * z.sin * -1), (-zeta.sin * z.cos * theta.cos), (zeta.cos * z.sin * -1), (-z.cos * theta.sin));
-    final double r3 = rOf(alpha, delta, (zeta.cos * z.sin * theta.cos), (zeta.sin * z.cos), (-zeta.sin * z.sin * theta.cos), (zeta.cos * z.cos), (-z.sin * theta.sin));
-    final double r4 = rOf(alpha, delta, (zeta.cos * theta.sin), 0, (-zeta.sin * theta.sin), 0, theta.cos);
+    double r2 = rOf(alpha, delta, (zeta.cos * z.cos * theta.cos), (zeta.sin * z.sin * -1), (-zeta.sin * z.cos * theta.cos), (zeta.cos * z.sin * -1), (-z.cos * theta.sin));
+    double r3 = rOf(alpha, delta, (zeta.cos * z.sin * theta.cos), (zeta.sin * z.cos), (-zeta.sin * z.sin * theta.cos), (zeta.cos * z.cos), (-z.sin * theta.sin));
+    double r4 = rOf(alpha, delta, (zeta.cos * theta.sin), 0, (-zeta.sin * theta.sin), 0, theta.cos);
     longitude = (Math.atan(r3 / r2)) + (r2 < 0 ? 180.0 : r3 < 0 ? 360.0 : 0);
     latitude = Math.asin(r4) * Formula.degreezr;
 

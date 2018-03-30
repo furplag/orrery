@@ -20,13 +20,16 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 
+import lombok.Getter;
+
 /**
  * a formula for calculates the longitude of the sun and moon .
  *
  * @author furplag
  *
  */
-public class Formula implements Comparable<Formula> {
+@Getter
+class Formula implements Comparable<Formula> {
 
   /** the type of formula . */
   static enum FormulaType {
@@ -181,26 +184,6 @@ public class Formula implements Comparable<Formula> {
     this.amplitude = perturbations[0];
     this.angularVelocity = perturbations[1];
     this.initialPhase = perturbations[2];
-  }
-
-  /** just a getter . */
-  FormulaType getFormulaType() {
-    return formulaType;
-  }
-
-  /** just a getter . */
-  double getAmplitude() {
-    return amplitude;
-  }
-
-  /** just a getter . */
-  double getAngularVelocity() {
-    return angularVelocity;
-  }
-
-  /** just a getter . */
-  double getInitialPhase() {
-    return initialPhase;
   }
 
   @Override
