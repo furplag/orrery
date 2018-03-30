@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import jp.furplag.misc.Astror;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * precession of the sun .
@@ -28,7 +30,9 @@ import jp.furplag.misc.Astror;
  * @author furplag
  *
  */
-public class Precession {
+@Getter
+@Setter
+public final class Precession {
 
   /** construct parameter of &zeta; . */
   static final List<Double> constOfZeta;
@@ -44,17 +48,17 @@ public class Precession {
     constOfTheta = Arrays.asList(2004.3109, -0.42665, -0.041833);
   }
 
-  final double terrestrialTime;
+  private final double terrestrialTime;
 
-  final Minion zeta;
+  private final Minion zeta;
 
-  final Minion z;
+  private final Minion z;
 
-  final Minion theta;
+  private final Minion theta;
 
-  double longitude;
+  private double longitude;
 
-  double latitude;
+  private double latitude;
 
   /**
    * a formula .

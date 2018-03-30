@@ -20,12 +20,15 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 
+import lombok.Getter;
+
 /**
  * a formula for calculates the longitude of the sun and moon .
  *
  * @author furplag
  *
  */
+@Getter
 class Formula implements Comparable<Formula> {
 
   /** the type of formula . */
@@ -55,16 +58,16 @@ class Formula implements Comparable<Formula> {
   }
 
   /** radian to angle . */
-  static final double radianizr;
+  public static final double radianizr;
 
   /** angle to radian . */
-  static final double degreezr;
+  public static final double degreezr;
 
   /** coefficients of the Moon. */
-  static final Formula[] sun;
+  public static final Formula[] sun;
 
   /** coefficients of the Moon. */
-  static final Formula[] moon;
+  public static final Formula[] moon;
   static {
     radianizr = Math.PI / 180.0;
     degreezr = 180.0 / Math.PI;
@@ -164,13 +167,13 @@ class Formula implements Comparable<Formula> {
   }
 
   /** {@link FormulaType} */
-  final FormulaType formulaType;
+  private final FormulaType formulaType;
 
-  final double amplitude;
+  private final double amplitude;
 
-  final double angularVelocity;
+  private final double angularVelocity;
 
-  final double initialPhase;
+  private final double initialPhase;
 
   private Formula(double... perturbations) {
     this(FormulaType.valueOf((int) perturbations[0]), perturbations[1], perturbations[2], perturbations[3]);

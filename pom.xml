@@ -96,6 +96,20 @@
     </dependency>
 
     <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-library</artifactId>
+      <version>1.3</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.16.20</version>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
       <groupId>jp.furplag.sandbox</groupId>
       <artifactId>deamtiet</artifactId>
       <version>1.0.0</version>

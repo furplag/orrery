@@ -16,7 +16,6 @@
 
 package jp.furplag.misc.orrery.delta;
 
-import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import java.lang.reflect.Constructor;
@@ -27,6 +26,8 @@ import java.util.GregorianCalendar;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import jp.furplag.time.Julian;
@@ -36,7 +37,7 @@ public class DeltaTTest {
   public void test() throws ReflectiveOperationException, SecurityException {
     Constructor<DeltaT> c = DeltaT.class.getDeclaredConstructor();
     c.setAccessible(true);
-    assertThat(c.newInstance() instanceof DeltaT, is(true));
+    assertThat(c.newInstance() instanceof DeltaT, CoreMatchers.is(true));
 
     final ZonedDateTime dateTime = Instant.parse("2001-01-01T00:00:00.000Z").atZone(ZoneOffset.UTC);
     // @formatter:off
@@ -45,7 +46,7 @@ public class DeltaTTest {
       assertThat(
         Objects.toString(y)
       , DeltaT.estimate(Julian.ofEpochMilli(dateTime.withYear(y).toInstant().toEpochMilli()))
-      , is(net.e175.klaus.solarpositioning.DeltaT.estimate(GregorianCalendar.from(dateTime.withYear(y))))
+      , CoreMatchers.is(Matchers.closeTo(net.e175.klaus.solarpositioning.DeltaT.estimate(GregorianCalendar.from(dateTime.withYear(y))), 15E-12))
       );
     });
     // @formatter:on
