@@ -68,9 +68,6 @@ public final class Precession {
    */
   private static final class Minion {
 
-    @Getter
-    private final double value;
-
     private final double sin;
 
     private final double cos;
@@ -80,7 +77,6 @@ public final class Precession {
     }
 
     private Minion(double value) {
-      this.value = value;
       sin = Math.sin(value);
       cos = Math.cos(value);
     }
@@ -101,9 +97,9 @@ public final class Precession {
    * @return result
    */
   public Precession compute(double alpha, double delta) {
-    double r2 = rOf(alpha, delta, (zeta.cos * z.cos * theta.cos), (zeta.sin * z.sin * -1), (-zeta.sin * z.cos * theta.cos), (zeta.cos * z.sin * -1), (-z.cos * theta.sin));
-    double r3 = rOf(alpha, delta, (zeta.cos * z.sin * theta.cos), (zeta.sin * z.cos), (-zeta.sin * z.sin * theta.cos), (zeta.cos * z.cos), (-z.sin * theta.sin));
-    double r4 = rOf(alpha, delta, (zeta.cos * theta.sin), 0, (-zeta.sin * theta.sin), 0, theta.cos);
+    final double r2 = rOf(alpha, delta, (zeta.cos * z.cos * theta.cos), (zeta.sin * z.sin * -1), (-zeta.sin * z.cos * theta.cos), (zeta.cos * z.sin * -1), (-z.cos * theta.sin));
+    final double r3 = rOf(alpha, delta, (zeta.cos * z.sin * theta.cos), (zeta.sin * z.cos), (-zeta.sin * z.sin * theta.cos), (zeta.cos * z.cos), (-z.sin * theta.sin));
+    final double r4 = rOf(alpha, delta, (zeta.cos * theta.sin), 0, (-zeta.sin * theta.sin), 0, theta.cos);
     longitude = (Math.atan(r3 / r2)) + (r2 < 0 ? 180.0 : r3 < 0 ? 360.0 : 0);
     latitude = Math.asin(r4) * Formula.degreezr;
 
