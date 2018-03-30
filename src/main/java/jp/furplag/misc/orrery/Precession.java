@@ -128,7 +128,7 @@ public final class Precession {
    * @param longitude the longitude of the sun
    * @return optimized longitude
    */
-  double optimize(double longitude) {
+  public double optimize(double longitude) {
     return Astror.circulate(longitude - this.longitude);
   }
 

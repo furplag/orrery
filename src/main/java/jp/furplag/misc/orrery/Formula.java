@@ -197,7 +197,7 @@ public class Formula implements Comparable<Formula> {
    * @param terrestrialTime T (terrestrialized julian date)
    * @return result
    */
-  double estimate(double terrestrialTime) {
+  public double estimate(double terrestrialTime) {
     // @formatter:off
     return
       (formulaType.is(FormulaType.Exclusive) ? (amplitude * terrestrialTime) : amplitude) * Math.cos(((angularVelocity * terrestrialTime) + initialPhase) * radianizr);
