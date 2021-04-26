@@ -18,10 +18,8 @@ package jp.furplag.misc;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-
 import jp.furplag.misc.orrery.delta.DeltaT;
-import jp.furplag.time.Julian;
-import jp.furplag.time.Millis;
+import jp.furplag.sandbox.time.Deamtiet;
 
 /**
  * code snippets for any of calculation .
@@ -48,7 +46,7 @@ public final class Astror {
    * @return &Delta;T
    */
   public static double toTerrestrialTime(final double julianDate) {
-    return (julianDate - Julian.j2000 + (getDeltaOfT(julianDate))) / (Julian.daysOfYear * 100.0);
+    return (julianDate - Deamtiet.j2000 + (getDeltaOfT(julianDate))) / (Deamtiet.daysOfYearOfJulian * 100.0);
   }
 
   /**
@@ -58,7 +56,7 @@ public final class Astror {
    * @return &Delta;T
    */
   public static double getDeltaOfT(final double julianDate) {
-    return Julian.ofEpochMilli(((long) (DeltaT.estimate(julianDate) * 1000))) - Millis.epoch;
+    return Deamtiet.julian.ofEpochMilli(((long) (DeltaT.estimate(julianDate) * 1000))) - Deamtiet.epochAsJulianDate;
   }
 
   /**
@@ -68,7 +66,7 @@ public final class Astror {
    * @return the decimal year represented by specified AJD
    */
   public static double yearize(final double julianDate) {
-    ZonedDateTime utc = Julian.toInstant(julianDate).atZone(ZoneOffset.UTC);
+    ZonedDateTime utc = Deamtiet.julian.toInstant(julianDate).atZone(ZoneOffset.UTC);
 
     return (utc.getYear() == 0 ? -1 : utc.getYear() < 0 ? (utc.getYear() - 1) : utc.getYear()) + ((utc.getMonthValue() - .5) / 12);
   }
