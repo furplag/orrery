@@ -16,8 +16,8 @@
 
 package jp.furplag.misc.orrery.delta;
 
-import static org.junit.Assert.*;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.lang.reflect.Constructor;
 import java.time.Instant;
 import java.time.ZoneOffset;
@@ -25,29 +25,24 @@ import java.time.ZonedDateTime;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 import java.util.stream.IntStream;
+import org.junit.jupiter.api.Test;
+import jp.furplag.sandbox.time.Deamtiet;
 
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.Matchers;
-import org.junit.Test;
+class DeltaTTest {
 
-import jp.furplag.time.Julian;
-
-public class DeltaTTest {
   @Test
-  public void test() throws ReflectiveOperationException, SecurityException {
+  void test() throws ReflectiveOperationException, SecurityException {
     Constructor<DeltaT> c = DeltaT.class.getDeclaredConstructor();
     c.setAccessible(true);
-    assertThat(c.newInstance() instanceof DeltaT, CoreMatchers.is(true));
+    assertTrue(c.newInstance() instanceof DeltaT);
 
     final ZonedDateTime dateTime = Instant.parse("2001-01-01T00:00:00.000Z").atZone(ZoneOffset.UTC);
     // @formatter:off
     IntStream.rangeClosed(-5000, 5000)
     .forEach(y -> {
-      assertThat(
-        Objects.toString(y)
-      , DeltaT.estimate(Julian.ofEpochMilli(dateTime.withYear(y).toInstant().toEpochMilli()))
-      , CoreMatchers.is(Matchers.closeTo(net.e175.klaus.solarpositioning.DeltaT.estimate(GregorianCalendar.from(dateTime.withYear(y))), 15E-12))
-      );
+      final double expected = net.e175.klaus.solarpositioning.DeltaT.estimate(GregorianCalendar.from(dateTime.withYear(y)));
+      final double actual = DeltaT.estimate(Deamtiet.julian.ofEpochMilli(dateTime.withYear(y).toInstant().toEpochMilli()));
+      assertEquals(expected, actual, 15E-12, Objects.toString(y));
     });
     // @formatter:on
   }

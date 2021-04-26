@@ -16,26 +16,24 @@
 
 package jp.furplag.misc.orrery;
 
-import static org.junit.Assert.*;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.lang.reflect.Constructor;
 import java.time.ZonedDateTime;
 import java.util.stream.IntStream;
-
-import org.hamcrest.CoreMatchers;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import jp.furplag.misc.Astror;
-import jp.furplag.time.Julian;
+import jp.furplag.sandbox.time.Deamtiet;
 
-public class PrecessionTest {
+class PrecessionTest {
 
   @Test
-  public void test() {
+  void test() {
     ZonedDateTime zdt = ZonedDateTime.parse("2001-01-01T00:00Z");
     IntStream.rangeClosed(-1000, 1000)
       .forEach(y -> {
-        final double j = Julian.ofEpochMilli(zdt.withYear(y).toInstant().toEpochMilli());
+        final double j = Deamtiet.julian.ofEpochMilli(zdt.withYear(y).toInstant().toEpochMilli());
         IntStream.range(0, 360)
           .forEach(d -> {
             Constructor<Precession> c;
@@ -44,8 +42,8 @@ public class PrecessionTest {
               c.setAccessible(true);
               Precession precession = c.newInstance(Astror.toTerrestrialTime(j));
               double actual = precession.compute(Astror.circulate(d - 180), 360 - d).optimize(d);
-              assertThat(0.0 <= actual && actual <= 360.0, CoreMatchers.is(true));
-              assertThat(precession.getTerrestrialTime(), CoreMatchers.is(Astror.toTerrestrialTime(j)));
+              assertTrue(0.0 <= actual && actual <= 360.0);
+              assertEquals(Astror.toTerrestrialTime(j), precession.getTerrestrialTime());
               assertNotNull(precession.getLongitude());
               assertNotNull(precession.getLatitude());
             } catch (ReflectiveOperationException e) {
@@ -53,6 +51,5 @@ public class PrecessionTest {
             }
           });
       });
-
   }
 }

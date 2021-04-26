@@ -16,9 +16,8 @@
 
 package jp.furplag.misc;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -29,35 +28,32 @@ import java.time.ZonedDateTime;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 import java.util.stream.IntStream;
+import org.junit.jupiter.api.Test;
+import jp.furplag.sandbox.time.Deamtiet;
 
-import org.junit.Test;
-
-import jp.furplag.time.Julian;
-
-public class AstrorTest {
+class AstrorTest {
 
   @Test
-  public void test() throws ReflectiveOperationException, SecurityException {
+  void test() throws ReflectiveOperationException, SecurityException {
     Constructor<Astror> c = Astror.class.getDeclaredConstructor();
     c.setAccessible(true);
-    assertThat(c.newInstance() instanceof Astror, is(true));
-
-    assertThat(Astror.toTerrestrialTime(Julian.j2000), is(2.0240131997637844E-8));
+    assertTrue(c.newInstance() instanceof Astror);
+    assertEquals(2.0240131997637844E-8d, Astror.toTerrestrialTime(Deamtiet.j2000));
   }
 
   @Test
-  public void testCirculate() {
-    assertThat(Astror.circulate(0), is(0.0));
-    assertThat(Astror.circulate(-0), is(0.0));
-    assertThat(Astror.circulate(90), is(90.0));
-    assertThat(Astror.circulate(360), is(0.0));
-    assertThat(Astror.circulate(-90), is(270.0));
-    assertThat(Astror.circulate(360*360), is(0.0));
-    assertThat(Astror.circulate(360*-360), is(0.0));
-    assertThat(Astror.circulate(90*25), is(90.0));
-    assertThat(Astror.circulate(90*-25), is(270.0));
-    assertThat(BigDecimal.valueOf(Astror.circulate(36123.123454321)).setScale(9, RoundingMode.HALF_UP).doubleValue(), is(123.123454321));
-    assertThat(BigDecimal.valueOf(Astror.circulate(-236.876545679)).setScale(9, RoundingMode.HALF_UP).doubleValue(), is(123.123454321));
+  void testCirculate() {
+    assertEquals(0d, Astror.circulate(0));
+    assertEquals(0d, Astror.circulate(-0));
+    assertEquals(90d, Astror.circulate(90));
+    assertEquals(0d, Astror.circulate(360));
+    assertEquals(270d, Astror.circulate(-90));
+    assertEquals(0d, Astror.circulate(360*360));
+    assertEquals(0d, Astror.circulate(360*-360));
+    assertEquals(90d, Astror.circulate(90*25));
+    assertEquals(270d, Astror.circulate(90*-25));
+    assertEquals(123.123454321d, BigDecimal.valueOf(Astror.circulate(36123.123454321)).setScale(9, RoundingMode.HALF_UP).doubleValue());
+    assertEquals(123.123454321d, BigDecimal.valueOf(Astror.circulate(-236.876545679)).setScale(9, RoundingMode.HALF_UP).doubleValue());
   }
 
   private static double decimalYear(final Method decimalYear, final GregorianCalendar forDate) {
@@ -69,20 +65,15 @@ public class AstrorTest {
   }
 
   @Test
-  public void testYearize() throws ReflectiveOperationException, SecurityException {
+  void testYearize() throws ReflectiveOperationException, SecurityException {
     final ZonedDateTime dateTime = Instant.parse("2001-01-01T00:00:00.000Z").atZone(ZoneOffset.UTC);
     final Method decimalYear = net.e175.klaus.solarpositioning.DeltaT.class.getDeclaredMethod("decimalYear", GregorianCalendar.class);
     decimalYear.setAccessible(true);
 
-    // @formatter:off
-    IntStream.rangeClosed(-10000, 10000)
-    .forEach(y -> {
-        assertThat(
-          Objects.toString(y)
-        , Astror.yearize(Julian.ofEpochMilli(dateTime.withYear(y).toInstant().toEpochMilli()))
-        , is(decimalYear(decimalYear, GregorianCalendar.from(dateTime.withYear(y))))
-        );
-    });
-    // @formatter:on
+    IntStream.rangeClosed(-10000, 10000).forEach(y -> {/* @formatter:off */
+      final double expected = decimalYear(decimalYear, GregorianCalendar.from(dateTime.withYear(y)));
+      final double actual = Astror.yearize(Deamtiet.julian.ofEpochMilli(dateTime.withYear(y).toInstant().toEpochMilli()));
+      assertEquals(expected, actual, Objects.toString(y));
+    /* @formatter:on */});
   }
 }

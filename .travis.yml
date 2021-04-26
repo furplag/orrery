@@ -1,12 +1,17 @@
 branches:
   only:
     - master
-
 language: java
 
 jdk:
   - oraclejdk11
+  - oraclejdk16
   - openjdk11
+  - openjdk12
+  - openjdk13
+  - openjdk14
+  - openjdk15
+  - openjdk16
 
 before_install:
   - mvn license:format --quiet -B
