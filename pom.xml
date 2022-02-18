@@ -20,11 +20,11 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>jp.furplag.sandbox</groupId>
   <artifactId>orrery</artifactId>
-  <version>3.1.0-SNAPSHOT</version>
+  <version>3.1.0</version>
   <inceptionYear>2018</inceptionYear>
   <name>${project.artifactId}</name>
   <description>a mechanical model of the sun, earth, and moon, used to represent their relative positions and motions .</description>
-  <url>https://github.com/furplag/${project.artifactId}</url>
+  <url>${developer.url}/${project.artifactId}</url>
 
   <licenses>
     <license>
