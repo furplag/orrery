@@ -20,7 +20,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>jp.furplag.sandbox</groupId>
   <artifactId>orrery</artifactId>
-  <version>3.0.1</version>
+  <version>3.1.0-SNAPSHOT</version>
   <inceptionYear>2018</inceptionYear>
   <name>${project.artifactId}</name>
   <description>a mechanical model of the sun, earth, and moon, used to represent their relative positions and motions .</description>
@@ -32,7 +32,10 @@
       <url>http://www.apache.org/licenses/LICENSE-2.0</url>
     </license>
   </licenses>
-  <organization />
+  <organization>
+    <name>${developer.name}</name>
+    <url>${developer.url}</url>
+  </organization>
   <developers>
     <developer>
       <id>${developer.name}</id>
@@ -65,7 +68,26 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
 
-    <junit.jupitor.version>5.6.2</junit.jupitor.version>
+    <google-java-format.version>1.13.0</google-java-format.version>
+    <commons-lang3.version>3.12.0</commons-lang3.version>
+    <junit.jupiter.version>5.8.2</junit.jupiter.version>
+    <lombok.version>1.18.22</lombok.version>
+    <jaxb-api.version>2.3.1</jaxb-api.version>
+
+    <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
+    <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+    <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
+    <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
+    <maven-javadoc-plugin.version>3.3.1</maven-javadoc-plugin.version>
+    <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
+    <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+    <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+
+    <com.github.github.site-maven-plugin.version>0.12</com.github.github.site-maven-plugin.version>
+    <com.mycila.license-maven-plugin.version>4.1</com.mycila.license-maven-plugin.version>
+    <org.eluder.coveralls.coveralls-maven-plugin.version>4.3.0</org.eluder.coveralls.coveralls-maven-plugin.version>
+    <org.jacoco.jacoco-maven-plugin.version>0.8.7</org.jacoco.jacoco-maven-plugin.version>
+
   </properties>
 
   <repositories>
@@ -86,25 +108,25 @@
     <dependency>
       <groupId>jp.furplag.sandbox</groupId>
       <artifactId>relic</artifactId>
-      <version>4.0.1</version>
+      <version>5.0.0</version>
     </dependency>
 
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
-      <version>${junit.jupitor.version}</version>
+      <version>${junit.jupiter.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-params</artifactId>
-      <version>${junit.jupitor.version}</version>
+      <version>${junit.jupiter.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
-      <version>${junit.jupitor.version}</version>
+      <version>${junit.jupiter.version}</version>
       <scope>test</scope>
     </dependency>
 
@@ -118,20 +140,95 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.20</version>
+      <version>${lombok.version}</version>
       <optional>true</optional>
     </dependency>
 
   </dependencies>
 
   <build>
-    <plugins>
 
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.github.github</groupId>
+          <artifactId>site-maven-plugin</artifactId>
+          <version>${com.github.github.site-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>com.mycila</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <version>${com.mycila.license-maven-plugin.version}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>${maven-clean-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${maven-compiler-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>${maven-deploy-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>${maven-jar-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${maven-javadoc-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>${maven-resources-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${maven-source-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${maven-surefire-plugin.version}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.eluder.coveralls</groupId>
+          <artifactId>coveralls-maven-plugin</artifactId>
+          <version>${org.eluder.coveralls.coveralls-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>${org.jacoco.jacoco-maven-plugin.version}</version>
+        </plugin>
+
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
         <configuration>
+          <parameters>true</parameters>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
+            </path>
+          </annotationProcessorPaths>
           <compilerArgs>
             <arg>-Xlint:deprecation,unchecked</arg>
           </compilerArgs>
@@ -141,7 +238,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>3.2.0</version>
         <configuration>
           <archive>
             <manifestEntries>
@@ -155,16 +251,15 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.2.0</version>
         <configuration>
+          <show>private</show>
           <locale>en_US</locale>
           <author>${developer.name}</author>
-          <extension>true</extension>
           <bottom>${javadoc.bottom}</bottom>
           <additionalJOptions>
             <additionalJOption>-J-Duser.language=en</additionalJOption>
             <additionalJOption>-J-Duse.country=US</additionalJOption>
-            <additionalparam>-Xdoclint:none</additionalparam>
+            <additionalJOption>-Xdoclint:none</additionalJOption>
           </additionalJOptions>
         </configuration>
         <executions>
@@ -180,7 +275,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>3.2.1</version>
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -194,7 +288,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.22.2</version>
         <configuration>
           <argLine>${jacocoArgs} -Dfile.encoding=UTF-8</argLine>
         </configuration>
@@ -203,7 +296,6 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.6</version>
         <configuration>
           <excludes>
             <exclude>**/**/_*.*</exclude>
@@ -233,15 +325,14 @@
       <plugin>
         <groupId>org.eluder.coveralls</groupId>
         <artifactId>coveralls-maven-plugin</artifactId>
-        <version>4.3.0</version>
         <configuration>
-          <repoToken>${coveralls.orrery.repoToken}</repoToken>
+          <repoToken>${coveralls.relic.repoToken}</repoToken>
         </configuration>
         <dependencies>
           <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>2.3.1</version>
+            <version>${jaxb-api.version}</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -249,23 +340,22 @@
       <plugin>
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
-        <version>3.0</version>
         <configuration>
-          <header>.licenseHeader</header>
-          <properties>
-            <owner>${developer.name}</owner>
-            <contact>${developer.url}</contact>
-          </properties>
-          <excludes>
-            <exclude>**/.licenseHeader</exclude>
-            <exclude>**/LICENSE</exclude>
-            <exclude>**/.*</exclude>
-            <exclude>**/*.config</exclude>
-            <exclude>**/*.yaml</exclude>
-            <exclude>**/*.yml</exclude>
-            <exclude>src/test/resources/**</exclude>
-            <exclude>src/main/resources/**</exclude>
-          </excludes>
+          <licenseSets>
+            <licenseSet>
+              <header>.licenseHeader</header>
+              <excludes>
+                <exclude>**/.licenseHeader</exclude>
+                <exclude>**/LICENSE</exclude>
+                <exclude>**/.*</exclude>
+                <exclude>**/*.config</exclude>
+                <exclude>**/*.yaml</exclude>
+                <exclude>**/*.yml</exclude>
+                <exclude>src/test/resources/**</exclude>
+                <exclude>src/main/resources/**</exclude>
+              </excludes>
+            </licenseSet>
+          </licenseSets>
         </configuration>
         <executions>
           <execution>
@@ -288,7 +378,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
-        <version>2.8.2</version>
         <configuration>
           <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
         </configuration>
@@ -297,7 +386,6 @@
       <plugin>
         <groupId>com.github.github</groupId>
         <artifactId>site-maven-plugin</artifactId>
-        <version>0.12</version>
         <configuration>
           <message>Maven artifacts for ${project.version}</message>
           <noJekyll>true</noJekyll>
