@@ -39,13 +39,16 @@ public interface EclipticLongitude {
    */
   @RequiredArgsConstructor
   @EqualsAndHashCode
-  static abstract class Formula implements Comparable<Formula>, Serializable {/* @formatter:on */
+  static abstract class Formula implements Serializable {/* @formatter:on */
 
+    /**
+     * the formula type to calculates Ecliptic longitude of the Sun, and Moon .
+     *
+     * @author furplag
+     *
+     */
+    @EqualsAndHashCode(callSuper = true)
     static abstract class Exclusive extends Formula {
-
-      Exclusive(int order, double amplitude, double angularVelocity, double initialPhase) {
-        super(order, amplitude, angularVelocity, initialPhase);
-      }
 
       Exclusive(double amplitude, double angularVelocity, double initialPhase) {
         super(amplitude, angularVelocity, initialPhase);
@@ -54,19 +57,14 @@ public interface EclipticLongitude {
       /** {@inheritDoc} */ @Override double amplitude(final double terrestrialTime) { return  terrestrialTime * amplitude; }
     }
 
-    final int order;
-
+    /** the angular distance of a celestial object . */
     final double amplitude;
 
+    /** the rate of change of angular position . */
     final double angularVelocity;
 
+    /** an initial phase . */
     final double initialPhase;
-
-    Formula(double amplitude, double angularVelocity, double initialPhase) {
-      this(0, amplitude, angularVelocity, initialPhase);
-    }
-
-    /** {@inheritDoc} */ @Override public int compareTo(Formula o) { return o == null ? 1 : Integer.compare(order, o.order); }
 
     /**
      * just a DRY in calculation .

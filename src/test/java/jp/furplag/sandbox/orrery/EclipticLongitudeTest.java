@@ -16,6 +16,7 @@
 package jp.furplag.sandbox.orrery;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Duration;
@@ -35,12 +36,10 @@ import jp.furplag.sandbox.time.Deamtiet;
 
 class EclipticLongitudeTest {
 
+  @SuppressWarnings("unlikely-arg-type")
   @Test
   void test() {
-    assertEquals(1d, EclipticLongitude.Sun.getFormulas()[0].compareTo(null));
-    assertEquals(0, new EclipticLongitude.Formula(0, 1, 2, 3) {}.compareTo(new EclipticLongitude.Formula.Exclusive(0, 1, 2, 3) {}));
-    assertEquals(1, new EclipticLongitude.Formula(1, 2, 3, 4) {}.compareTo(new EclipticLongitude.Formula.Exclusive(0, 1, 2, 3) {}));
-    assertEquals(0, EclipticLongitude.Sun.getFormulas()[0].compareTo(Arrays.stream(EclipticLongitude.Sun.getFormulas()).filter(f -> f instanceof EclipticLongitude.Formula.Exclusive).findFirst().orElse(null)));
+    assertFalse(new EclipticLongitude.Formula(0, 1, 2) {}.equals(new EclipticLongitude.Formula.Exclusive(0, 1, 2) {}));
   }
 
   @Test
