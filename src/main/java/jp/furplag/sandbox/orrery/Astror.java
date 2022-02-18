@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2018+ furplag (https://github.com/furplag)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,21 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package jp.furplag.misc;
+package jp.furplag.sandbox.orrery;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import jp.furplag.misc.orrery.delta.DeltaT;
 import jp.furplag.sandbox.time.Deamtiet;
 
 /**
- * code snippets for any of calculation .
+ * code snippet for any of calculation .
  *
  * @author furplag
  *
  */
-public final class Astror {
+public interface Astror {
+
+  /** radian to angle . */
+  static final double radianizr = Math.PI / 180.0;
+
+  /** angle to radian . */
+  static final double degreezr = 180.0 / Math.PI;
 
   /**
    * normalize the degree to range of 0&deg; - 360&deg; .
@@ -35,7 +39,7 @@ public final class Astror {
    * @param degree the degree
    * @return normalized degree to range of 0&deg; - 360&deg;
    */
-  public static double circulate(final double degree) {
+  static double circulate(final double degree) {
     return degree % 360.0 == 0 ? 0 : ((degree % 360.0) + (degree < 0.0 ? 360.0 : 0.0));
   }
 
@@ -45,7 +49,7 @@ public final class Astror {
    * @param julianDate the astronomical julian date
    * @return &Delta;T
    */
-  public static double toTerrestrialTime(final double julianDate) {
+  static double toTerrestrialTime(final double julianDate) {
     return (julianDate - Deamtiet.j2000 + (getDeltaOfT(julianDate))) / (Deamtiet.daysOfYearOfJulian * 100.0);
   }
 
@@ -55,7 +59,7 @@ public final class Astror {
    * @param julianDate the astronomical julian date
    * @return &Delta;T
    */
-  public static double getDeltaOfT(final double julianDate) {
+  static double getDeltaOfT(final double julianDate) {
     return Deamtiet.julian.ofEpochMilli(((long) (DeltaT.estimate(julianDate) * 1000))) - Deamtiet.epochAsJulianDate;
   }
 
@@ -65,14 +69,9 @@ public final class Astror {
    * @param julianDate the astronomical julian date
    * @return the decimal year represented by specified AJD
    */
-  public static double yearize(final double julianDate) {
-    ZonedDateTime utc = Deamtiet.julian.toInstant(julianDate).atZone(ZoneOffset.UTC);
+  static double yearize(final double julianDate) {
+    final ZonedDateTime utc = Deamtiet.julian.toInstant(julianDate).atZone(ZoneOffset.UTC);
 
     return (utc.getYear() == 0 ? -1 : utc.getYear() < 0 ? (utc.getYear() - 1) : utc.getYear()) + ((utc.getMonthValue() - .5) / 12);
   }
-
-  /**
-   * Astror instances should NOT be constructed in standard programming .
-   */
-  private Astror() {}
 }

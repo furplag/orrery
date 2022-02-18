@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2018+ furplag (https://github.com/furplag)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,12 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package jp.furplag.misc;
+package jp.furplag.sandbox.orrery;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import java.lang.reflect.Constructor;
+
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -28,16 +26,15 @@ import java.time.ZonedDateTime;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 import java.util.stream.IntStream;
+
 import org.junit.jupiter.api.Test;
+
 import jp.furplag.sandbox.time.Deamtiet;
 
-class AstrorTest {
+public class AstrorTest {
 
   @Test
   void test() throws ReflectiveOperationException, SecurityException {
-    Constructor<Astror> c = Astror.class.getDeclaredConstructor();
-    c.setAccessible(true);
-    assertTrue(c.newInstance() instanceof Astror);
     assertEquals(2.0240131997637844E-8d, Astror.toTerrestrialTime(Deamtiet.j2000));
   }
 

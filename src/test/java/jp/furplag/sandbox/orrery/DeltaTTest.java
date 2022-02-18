@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2018+ furplag (https://github.com/furplag)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,29 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package jp.furplag.misc.orrery.delta;
+package jp.furplag.sandbox.orrery;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import java.lang.reflect.Constructor;
+
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 import java.util.stream.IntStream;
+
 import org.junit.jupiter.api.Test;
+
 import jp.furplag.sandbox.time.Deamtiet;
 
 class DeltaTTest {
 
   @Test
   void test() throws ReflectiveOperationException, SecurityException {
-    Constructor<DeltaT> c = DeltaT.class.getDeclaredConstructor();
-    c.setAccessible(true);
-    assertTrue(c.newInstance() instanceof DeltaT);
-
     final ZonedDateTime dateTime = Instant.parse("2001-01-01T00:00:00.000Z").atZone(ZoneOffset.UTC);
     // @formatter:off
     IntStream.rangeClosed(-5000, 5000)

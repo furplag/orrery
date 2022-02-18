@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2018+ furplag (https://github.com/furplag)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package jp.furplag.misc.orrery;
+package jp.furplag.sandbox.orrery;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import java.lang.reflect.Constructor;
+
 import java.time.ZonedDateTime;
 import java.util.stream.IntStream;
+
 import org.junit.jupiter.api.Test;
-import jp.furplag.misc.Astror;
+
 import jp.furplag.sandbox.time.Deamtiet;
 
 class PrecessionTest {
@@ -36,19 +36,12 @@ class PrecessionTest {
         final double j = Deamtiet.julian.ofEpochMilli(zdt.withYear(y).toInstant().toEpochMilli());
         IntStream.range(0, 360)
           .forEach(d -> {
-            Constructor<Precession> c;
-            try {
-              c = Precession.class.getDeclaredConstructor(double.class);
-              c.setAccessible(true);
-              Precession precession = c.newInstance(Astror.toTerrestrialTime(j));
-              double actual = precession.compute(Astror.circulate(d - 180), 360 - d).optimize(d);
-              assertTrue(0.0 <= actual && actual <= 360.0);
-              assertEquals(Astror.toTerrestrialTime(j), precession.getTerrestrialTime());
-              assertNotNull(precession.getLongitude());
-              assertNotNull(precession.getLatitude());
-            } catch (ReflectiveOperationException e) {
-              e.printStackTrace();
-            }
+            Precession precession = new Precession(Astror.toTerrestrialTime(j)) {};
+            double actual = precession.compute(Astror.circulate(d - 180), 360 - d).optimize(d);
+            assertTrue(0.0 <= actual && actual <= 360.0);
+            assertEquals(Astror.toTerrestrialTime(j), precession.getTerrestrialTime());
+            assertNotNull(precession.getLongitude());
+            assertNotNull(precession.getLatitude());
           });
       });
   }
