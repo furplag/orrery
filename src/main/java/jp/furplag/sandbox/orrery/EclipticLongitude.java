@@ -220,7 +220,7 @@ public interface EclipticLongitude {
    * @return longitude of the planet in instant represented by specified julian
    *         date
    */
-  default double getEclipticLongitude(final double julianDate) {
+  default double getLongitude(final double julianDate) {
     return Astror.circulate(_calculate(Astror.toTerrestrialTime(julianDate)));
   }
 }

@@ -123,10 +123,9 @@ class EclipticLongitudeTest {
     , {Deamtiet.julian.ofEpochMilli(OffsetDateTime.parse("2018-12-07T13:26+09:00").toInstant().toEpochMilli()), 255.0}
     , {Deamtiet.julian.ofEpochMilli(OffsetDateTime.parse("2018-12-22T07:23+09:00").toInstant().toEpochMilli()), 270.0}
     /* @formatter:on */}).forEach(n -> {/* @formatter:off */
-      assertEquals(n[1], Astror.circulate(Math.round(EclipticLongitude.Sun.getEclipticLongitude(n[0]))), Deamtiet.julian.toInstant(n[0]).atOffset(ZoneOffset.ofHours(9)).toString());
+      assertEquals(n[1], Astror.circulate(Math.round(EclipticLongitude.Sun.getLongitude(n[0]))), Deamtiet.julian.toInstant(n[0]).atOffset(ZoneOffset.ofHours(9)).toString());
     /* @formatter:on */});
   }
-
 
   @Test
   void testOfMoon() {/* @formatter:off */
@@ -178,8 +177,8 @@ class EclipticLongitudeTest {
         .mapToDouble(min -> {
           Instant i = expect.truncatedTo(ChronoUnit.DAYS).plusMinutes(min).toInstant();
           double julianDate = Deamtiet.julian.ofEpochMilli(i.toEpochMilli());
-          double sun = EclipticLongitude.Sun.getEclipticLongitude(julianDate);
-          double moon = EclipticLongitude.Moon.getEclipticLongitude(julianDate);
+          double sun = EclipticLongitude.Sun.getLongitude(julianDate);
+          double moon = EclipticLongitude.Moon.getLongitude(julianDate);
           double diff = Math.abs(moon - sun);
           phases.put(diff, i);
 
